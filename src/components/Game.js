@@ -27,7 +27,7 @@ class Game extends React.Component {
             return;
         }
         square[i] = this.state.xIsNext ? 'X' : 'O';
-        this.setState({
+        this.setState((state, props) => ({
             history: history.concat([{
                 squares: square,
                 row: parseInt(i / 3),
@@ -35,8 +35,8 @@ class Game extends React.Component {
                 isSelected: false
             }]),
             stepNumber: history.length,
-            xIsNext: !this.state.xIsNext
-        })
+            xIsNext: !state.xIsNext
+        }));
     }
 
     jumpTo(step) {
@@ -70,7 +70,7 @@ class Game extends React.Component {
         if (winner) {
             status = 'Winner is ' + winner;
             winningSquares = getWinningSquares(current.squares);
-        } else if(this.state.history.length > 9){
+        } else if (this.state.history.length > 9) {
             status = 'No winners';
         } else {
             status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
@@ -87,9 +87,9 @@ class Game extends React.Component {
                     <div>{status}</div>
                     <button onClick={() => {
                         console.log("Yes Click is happening");
-                        this.setState({
-                            isAscending: !this.state.isAscending,
-                        });
+                        this.setState((state,props)=>({
+                            isAscending: !state.isAscending,
+                        }));
                     }}>{this.state.isAscending ? 'Ascending' : 'Decending'}</button>
                     <ol>{moves}</ol>
                 </div>
